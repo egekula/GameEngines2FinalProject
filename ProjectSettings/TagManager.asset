@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Ladder
+  - Enemies
   layers:
   - Default
   - TransparentFX
@@ -54,6 +55,12 @@ TagManager:
     locked: 0
   - name: Lava
     uniqueID: 1158909833
+    locked: 0
+  - name: Monster
+    uniqueID: 622031571
+    locked: 0
+  - name: Mushroom
+    uniqueID: 826233303
     locked: 0
   - name: Player
     uniqueID: 560163643

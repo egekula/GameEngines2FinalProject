@@ -78,16 +78,13 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         
-        if (bodyCollider.IsTouchingLayers(LayerMask.GetMask( "Lava")))
+        if (bodyCollider.IsTouchingLayers(LayerMask.GetMask( "Lava","Enemies")))
         {
             
             _playerRb.velocity = new Vector2(20, 20);
-            
             _playerAnimator.SetTrigger("Death");
             StartCoroutine("DeathTime");
 
-            
-            
         }
         
     }
