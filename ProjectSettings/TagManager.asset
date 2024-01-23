@@ -62,6 +62,9 @@ TagManager:
   - name: Mushroom
     uniqueID: 826233303
     locked: 0
+  - name: Portal
+    uniqueID: 4118867081
+    locked: 0
   - name: Player
     uniqueID: 560163643
     locked: 0

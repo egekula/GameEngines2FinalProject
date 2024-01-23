@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!_isAlive)
+        {
+            return;
+        }
         Move();
         FlipSprite();
         Jump();
@@ -34,6 +38,10 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (!_isAlive)
+        {
+            return;
+        }
         float inputX = Input.GetAxisRaw("Horizontal") ;
         Vector2 horizontalVector = new Vector2(inputX * playerSpeed, _playerRb.velocity.y);
         _playerRb.velocity = horizontalVector;
@@ -43,6 +51,10 @@ public class PlayerController : MonoBehaviour
 
     void FlipSprite()
     {
+        if (!_isAlive)
+        {
+            return;
+        }
         bool hasSpeedX = Mathf.Abs(_playerRb.velocity.x) > Mathf.Epsilon;
         if (hasSpeedX)
         {
@@ -52,6 +64,10 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        if (!_isAlive)
+        {
+            return;
+        }
         if(!feetCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))){return;}
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -62,7 +78,10 @@ public class PlayerController : MonoBehaviour
     }
     private void Climbing()
     {
-        
+        if (!_isAlive)
+        {
+            return;
+        }
         if (!(feetCollider.IsTouchingLayers(LayerMask.GetMask("Ladder"))))
         {
             _playerRb.gravityScale =3;
@@ -80,10 +99,13 @@ public class PlayerController : MonoBehaviour
         
         if (bodyCollider.IsTouchingLayers(LayerMask.GetMask( "Lava","Enemies")))
         {
-            
+            _isAlive = false;
+        
             _playerRb.velocity = new Vector2(20, 20);
             _playerAnimator.SetTrigger("Death");
             StartCoroutine("DeathTime");
+            FindObjectOfType<PlayerStateManager>().ProcessOfPlayerDeath();
+
 
         }
         
