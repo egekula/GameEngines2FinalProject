@@ -5,26 +5,30 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D _playerRb;
+    public Rigidbody2D _playerRb;
     private Animator _playerAnimator;
-    [SerializeField] private float playerSpeed;
-    [SerializeField] private float jumpSpeed;
+    public float playerSpeed;
+    public float jumpSpeed;
     [SerializeField] private float climbingSpeed;
     private BoxCollider2D feetCollider;
     private CapsuleCollider2D bodyCollider;
-    private bool _isAlive = true;
-    //[SerializeField] private AudioClip deathSong;
+    public bool _isAlive = true;
+    [SerializeField] private AudioClip deathSong;
+    public GameObject playerSpotlight;
+    public bool isOpen=true;
     void Start()
     {
+        isOpen = true;
         _playerRb = GetComponent<Rigidbody2D>();
         _playerAnimator = GetComponent<Animator>();
         feetCollider = GetComponent<BoxCollider2D>();
-        bodyCollider = GetComponent<CapsuleCollider2D>();
-        
+        bodyCollider = GetComponent<CapsuleCollider2D>(); 
     }
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.E)&&isOpen) { playerSpotlight.gameObject.SetActive(false); isOpen = false; }
+        else if (Input.GetKeyDown(KeyCode.E)&&!isOpen) { playerSpotlight.gameObject.SetActive(true); isOpen = true; }
         if (!_isAlive)
         {
             return;
@@ -99,8 +103,8 @@ public class PlayerController : MonoBehaviour
         
         if (bodyCollider.IsTouchingLayers(LayerMask.GetMask( "Lava","Enemies")))
         {
+            GetComponent<AudioSource>().PlayOneShot(deathSong);
             _isAlive = false;
-        
             _playerRb.velocity = new Vector2(20, 20);
             _playerAnimator.SetTrigger("Death");
             StartCoroutine("DeathTime");
